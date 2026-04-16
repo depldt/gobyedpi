@@ -85,6 +85,7 @@ EOF
 
 # Создание конфигурационного файла GOST
 echo "Создание конфигурационного файла GOST..."
+
 cat > gost.yml << 'EOF'
 services:
 - name: service-0
@@ -92,11 +93,11 @@ services:
   handler:
     type: socks5
     metadata:
-      udp: true  # Включаем поддержку UDP
-    chain: chain-0
+      udp: true  # Разрешаем клиентам подключаться по UDP
+    chain: chain-0 # Весь трафик (TCP и UDP) пойдет в эту цепочку
   listener:
-    type: udp    # Слушаем UDP
-    chain: chain-0
+    type: tcp    # Слушаем входящие соединения по TCP
+
 chains:
 - name: chain-0
   hops:
@@ -105,9 +106,11 @@ chains:
     - name: node-0
       addr: "127.0.0.1:8081"
       connector:
-        type: socks5
+        type: http  # Принимающий узел на 8081 должен быть HTTP-прокси
       dialer:
         type: tcp
+        # Если на порту 8081 нет TLS, секцию tls можно убрать.
+        # Если TLS есть (HTTPS прокси), оставляем:
         tls:
           insecure: true
 
@@ -117,9 +120,9 @@ log:
 
 api:
   addr: ":18080"
-  pathPrefix: /api
   accesslog: true
 EOF
+
 
 # Создание конфигурационного файла Byedpi
 echo "Создание конфигурационного файла Byedpi..."
