@@ -1,29 +1,18 @@
 #!/bin/bash
 
 # cd ~
-cd ~
 # Установка GOST + Byedpi DPI обхода
 
 echo "Подготовка к установке GOST + Byedpi DPI обхода"
 
+# Установка необходимых системных зависимостей
+echo "Установка системных зависимостей..."
+apt update
+apt install -y git nano docker-compose wget curl net-tools docker.io build-essential make gcc golang
+
 # Создание директории проекта
 mkdir -p gost-byedpi-setup
 cd gost-byedpi-setup
-
-# Скачивание исходных кодов
-echo "Скачивание исходных кодов GOST..."
-git clone https://github.com/go-gost/gost.git
-cd gost/cmd/gost
-go build
-cp gost ../../../gost
-cd ../../..
-
-echo "Скачивание исходных кодов Byedpi..."
-git clone https://github.com/hufrea/byedpi.git
-cd byedpi
-make
-cp ciadpi ../ciadpi
-cd ..
 
 # Создание Dockerfile
 echo "Создание Dockerfile..."
