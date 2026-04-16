@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # cd ~
+cd ~
 # Установка GOST + Byedpi DPI обхода
 
 echo "Подготовка к установке GOST + Byedpi DPI обхода"
