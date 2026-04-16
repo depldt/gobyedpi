@@ -63,8 +63,8 @@ ls -la bin/
 # Создание Dockerfile
 echo "Создание Dockerfile..."
 cat > Dockerfile << 'EOF'
-FROM docker.io/alpine:latest
-RUN apk add --no-cache ca-certificates openssl tzdata
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y ca-certificates openssl tzdata && rm -rf /var/lib/apt/lists/*
 RUN adduser -D -s /bin/sh gostuser
 RUN mkdir -p /etc/gost /etc/byedpi /usr/local/bin
 
