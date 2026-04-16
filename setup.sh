@@ -90,7 +90,7 @@ services:
 - name: service-0
   addr: ":8080"
   handler:
-    type: http
+    type: socks5
     chain: chain-0
   listener:
     type: tcp
@@ -105,7 +105,7 @@ chains:
       connector:
         type: direct
       dialer:
-        type: tcp
+        type: socks5
         tls:
           insecure: true
 
