@@ -14,6 +14,25 @@ apt install -y git nano docker-compose wget curl net-tools docker.io build-essen
 mkdir -p gost-byedpi-setup
 cd gost-byedpi-setup
 
+# Создание временной директории для бинарных файлов
+mkdir -p bin
+
+# Скачивание и сборка GOST
+echo "Скачивание и сборка GOST..."
+git clone https://github.com/go-gost/gost.git
+cd gost/cmd/gost
+go build
+cp gost ../../../bin/gost
+cd ../../..
+
+# Скачивание и сборка Byedpi
+echo "Скачивание и сборка Byedpi..."
+git clone https://github.com/hufrea/byedpi.git
+cd byedpi
+make
+cp ciadpi ../bin/ciadpi
+cd ..
+
 # Создание Dockerfile
 echo "Создание Dockerfile..."
 cat > Dockerfile << 'EOF'
@@ -22,8 +41,8 @@ RUN apk add --no-cache ca-certificates openssl
 RUN adduser -D -s /bin/sh gostuser
 RUN mkdir -p /etc/gost /etc/byedpi
 # Копирование файлов
-COPY gost /usr/local/bin/gost
-COPY ciadpi /usr/local/bin/ciadpi
+COPY bin/gost /usr/local/bin/gost
+COPY bin/ciadpi /usr/local/bin/ciadpi
 COPY gost.yml /etc/gost/
 COPY byedpi.conf /etc/byedpi/
 RUN chmod +x /usr/local/bin/gost /usr/local/bin/ciadpi
