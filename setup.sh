@@ -70,8 +70,8 @@ RUN adduser -D -s /bin/sh gostuser
 RUN mkdir -p /etc/gost /etc/byedpi /usr/local/bin
 
 # Копирование файлов
-COPY bin/gost /usr/local/bin/gost
-COPY bin/ciadpi /usr/local/bin/ciadpi
+COPY gost-byedpi-setup/bin/gost /usr/local/bin/gost
+COPY gost-byedpi-setup/bin/ciadpi /usr/local/bin/ciadpi
 COPY gost.yml /etc/gost/
 COPY byedpi.conf /etc/byedpi/
 RUN chmod +x /usr/local/bin/gost /usr/local/bin/ciadpi
