@@ -56,15 +56,19 @@ if [ ! -f "bin/ciadpi" ]; then
     exit 1
 fi
 
-echo "Бинарные файлы успешно созданы"
+echo "Бинарные файлы успешно созданы в bin/"
+
+# Проверим, что файлы существуют
+ls -la bin/
 
 # Создание Dockerfile
 echo "Создание Dockerfile..."
 cat > Dockerfile << 'EOF'
 FROM docker.io/alpine:latest
-RUN apk add --no-cache ca-certificates openssl
+RUN apk add --no-cache ca-certificates openssl tzdata
 RUN adduser -D -s /bin/sh gostuser
 RUN mkdir -p /etc/gost /etc/byedpi /usr/local/bin
+
 # Копирование файлов
 COPY bin/gost /usr/local/bin/gost
 COPY bin/ciadpi /usr/local/bin/ciadpi
@@ -126,20 +130,25 @@ docker build -t gost-byedpi .
 # Проверка успешности сборки
 if [ $? -eq 0 ]; then
     echo "Docker контейнер успешно собран"
+    
+    echo "Проверка файлов в контейнере..."
+    # Простая проверка, что бинарники существуют, но без запуска контейнера
+    docker run --rm gost-byedpi ls -la /usr/local/bin/ || echo "Ошибка проверки контейнера"
+    
+    # Запуск контейнера
+    echo "Запуск контейнера..."
+    docker run -d \
+      --name gost-byedpi-container \
+      -p 8080:8080 \
+      -p 8081:8081 \
+      -p 8082:8082 \
+      gost-byedpi
+    
+    echo "Установка завершена!"
+    echo "Система готова к использованию через прокси на порту 8080"
+    echo "Для проверки работы используйте: docker logs gost-byedpi-container"
+    
 else
     echo "Ошибка сборки Docker контейнера"
     exit 1
 fi
-
-# Запуск контейнера
-echo "Запуск контейнера..."
-docker run -d \
-  --name gost-byedpi-container \
-  -p 8080:8080 \
-  -p 8081:8081 \
-  -p 8082:8082 \
-  gost-byedpi
-
-echo "Установка завершена!"
-echo "Система готова к использованию через прокси на порту 8080"
-echo "Для проверки работы используйте: docker logs gost-byedpi-container"
