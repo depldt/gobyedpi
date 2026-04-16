@@ -1,0 +1,31 @@
+services:
+- name: service-0
+  addr: ":8080"
+  handler:
+    type: http
+    chain: chain-0
+  listener:
+    type: tcp
+    chain: chain-0
+chains:
+- name: chain-0
+  hops:
+  - name: hop-0
+    nodes:
+    - name: node-0
+      addr: "127.0.0.1:8081"
+      connector:
+        type: direct
+      dialer:
+        type: tcp
+        tls:
+          insecure: true
+
+log:
+  output: stderr
+  level: debug
+
+api:
+  addr: ":18080"
+  pathPrefix: /api
+  accesslog: true
