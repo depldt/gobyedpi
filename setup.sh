@@ -134,7 +134,7 @@ if [ $? -eq 0 ]; then
     
     echo "Проверка файлов в контейнере..."
     # Простая проверка, что бинарники существуют, но без запуска контейнера
-    docker run --rm gost-byedpi ls -la /usr/local/bin/ || echo "Ошибка проверки контейнера"
+    docker run --rm --entrypoint ls gost-byedpi -la /usr/local/bin/ || echo "Ошибка проверки контейнера"
     
     # Запуск контейнера
     echo "Запуск контейнера..."
