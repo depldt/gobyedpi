@@ -22,7 +22,13 @@ echo "Скачивание и сборка GOST..."
 git clone https://github.com/go-gost/gost.git
 cd gost/cmd/gost
 go build
-cp gost ../../../bin/gost
+if [ $? -eq 0 ]; then
+    echo "GOST успешно собран"
+    cp gost ../../../bin/gost
+else
+    echo "Ошибка сборки GOST"
+    exit 1
+fi
 cd ../../..
 
 # Скачивание и сборка Byedpi
@@ -30,8 +36,27 @@ echo "Скачивание и сборка Byedpi..."
 git clone https://github.com/hufrea/byedpi.git
 cd byedpi
 make
-cp ciadpi ../bin/ciadpi
+if [ $? -eq 0 ]; then
+    echo "Byedpi успешно собран"
+    cp ciadpi ../bin/ciadpi
+else
+    echo "Ошибка сборки Byedpi"
+    exit 1
+fi
 cd ..
+
+# Проверка, что бинарные файлы созданы
+if [ ! -f "bin/gost" ]; then
+    echo "Ошибка: Не удалось создать бинарный файл GOST"
+    exit 1
+fi
+
+if [ ! -f "bin/ciadpi" ]; then
+    echo "Ошибка: Не удалось создать бинарный файл Byedpi"
+    exit 1
+fi
+
+echo "Бинарные файлы успешно созданы"
 
 # Создание Dockerfile
 echo "Создание Dockerfile..."
@@ -39,7 +64,7 @@ cat > Dockerfile << 'EOF'
 FROM docker.io/alpine:latest
 RUN apk add --no-cache ca-certificates openssl
 RUN adduser -D -s /bin/sh gostuser
-RUN mkdir -p /etc/gost /etc/byedpi
+RUN mkdir -p /etc/gost /etc/byedpi /usr/local/bin
 # Копирование файлов
 COPY bin/gost /usr/local/bin/gost
 COPY bin/ciadpi /usr/local/bin/ciadpi
@@ -97,6 +122,14 @@ EOF
 # Сборка Docker контейнера
 echo "Сборка Docker контейнера..."
 docker build -t gost-byedpi .
+
+# Проверка успешности сборки
+if [ $? -eq 0 ]; then
+    echo "Docker контейнер успешно собран"
+else
+    echo "Ошибка сборки Docker контейнера"
+    exit 1
+fi
 
 # Запуск контейнера
 echo "Запуск контейнера..."
