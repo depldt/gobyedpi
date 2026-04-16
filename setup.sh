@@ -91,9 +91,11 @@ services:
   addr: ":8080"
   handler:
     type: socks5
+    metadata:
+      udp: true  # Включаем поддержку UDP
     chain: chain-0
   listener:
-    type: udp
+    type: udp    # Слушаем UDP
     chain: chain-0
 chains:
 - name: chain-0
