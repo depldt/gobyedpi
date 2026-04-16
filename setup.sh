@@ -63,9 +63,16 @@ ls -la bin/
 # Создание Dockerfile
 echo "Создание Dockerfile..."
 cat > Dockerfile << 'EOF'
-FROM docker.io/alpine:latest
-RUN apk add --no-cache ca-certificates openssl tzdata
-RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+FROM debian:bookworm-slim
+
+# Устанавливаем необходимые пакеты (имена те же)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    openssl \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN adduser --disabled-password --shell /bin/sh gostuser
 RUN mkdir -p /etc/gost /etc/byedpi /usr/local/bin
 
 # Копирование файлов
@@ -73,8 +80,11 @@ COPY bin/gost /usr/local/bin/gost
 COPY bin/ciadpi /usr/local/bin/ciadpi
 COPY gost.yml /etc/gost/
 COPY byedpi.conf /etc/byedpi/
+
 RUN chmod +x /usr/local/bin/gost /usr/local/bin/ciadpi
+
 EXPOSE 8080 8081 8082
+
 ENTRYPOINT ["/usr/local/bin/gost", "-C", "/etc/gost/gost.yml"]
 EOF
 
