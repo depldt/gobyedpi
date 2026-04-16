@@ -103,9 +103,9 @@ chains:
     - name: node-0
       addr: "127.0.0.1:8081"
       connector:
-        type: direct
-      dialer:
         type: socks5
+      dialer:
+        type: tcp
         tls:
           insecure: true
 
