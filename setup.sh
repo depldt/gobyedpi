@@ -93,7 +93,7 @@ services:
     type: socks5
     chain: chain-0
   listener:
-    type: tcp
+    type: udp
     chain: chain-0
 chains:
 - name: chain-0
