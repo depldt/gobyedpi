@@ -78,7 +78,7 @@ COPY byedpi.conf /etc/byedpi/
 RUN chmod +x /usr/local/bin/gost /usr/local/bin/ciadpi
 EXPOSE 8080 8081 8082
 RUN echo '#!/bin/sh\n\
-/usr/local/bin/ciadpi -p 8081 & \n\
+/usr/local/bin/ciadpi -p 8081 -Kt,h -s1 -q1 -At -T5 -b1000 -f-1 --md5sig -r1+s -As n www.google.com -d 1+s -O 1 -s 29+s -t 5 -An -Ku -a5 -An \n\
 /usr/local/bin/gost -C /etc/gost/gost.yml' > /start.sh && chmod +x /start.sh
 ENTRYPOINT ["/bin/sh", "/start.sh"]
 EOF
