@@ -77,7 +77,10 @@ COPY gost.yml /etc/gost/
 COPY byedpi.conf /etc/byedpi/
 RUN chmod +x /usr/local/bin/gost /usr/local/bin/ciadpi
 EXPOSE 8080 8081 8082
-ENTRYPOINT ["/usr/local/bin/gost", "-C", "/etc/gost/gost.yml"]
+RUN echo '#!/bin/sh\n\
+/usr/local/bin/ciadpi --config /etc/byedpi/byedpi.conf -p 8081 & \n\
+/usr/local/bin/gost -C /etc/gost/gost.yml' > /start.sh && chmod +x /start.sh
+ENTRYPOINT ["/bin/sh", "/start.sh"]
 EOF
 
 # Создание конфигурационного файла GOST
