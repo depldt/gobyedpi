@@ -168,12 +168,15 @@ else
     echo "Ошибка сборки Docker контейнера"
     exit 1
 fi
-cd ~ && echo 'DONE' && cat <<EOF
+cd ~ && echo 'DONE'
+echo -e "$(cat <<EOF
 
-\|/          (__)    
-     \`\------(oo)
-       ||    (__)     VAMA-WAMA-VAMA-WAMA CHOOOOMO
-       ||w--||     \|/
-   \|/
+\033[1;36m\|/          (__)    \033[0m
+\033[1;36m     \`\------(oo)\033[0m
+\033[1;36m       ||    (__)     VAMA-WAMA-VAMA-WAMA CHOOOOMO\033[0m
+\033[1;36m       ||w--||     \|/\033[0m
+\033[1;36m   \|/\033[0m
 
 EOF
+)"
+
