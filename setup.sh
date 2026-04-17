@@ -168,7 +168,7 @@ else
     echo "Ошибка сборки Docker контейнера"
     exit 1
 fi
-cd ~ && echo 'DONE'
+
 echo -e "$(cat <<EOF
 
 \033[1;36m\|/          (__)    \033[0m
@@ -179,4 +179,4 @@ echo -e "$(cat <<EOF
 
 EOF
 )"
-
+echo 'DONE'
