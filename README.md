@@ -1,4 +1,8 @@
 # GOST + Byedpi DPI обход
+```
+# quick start
+git clone https://github.com/depldt/gobyedpi.git && cd gobyedpi/ && chmod +x setup.sh && ./setup.sh && cd ~
+```
 
 Комплексное решение для обхода интернет-цензуры с использованием GOST и Byedpi
 
