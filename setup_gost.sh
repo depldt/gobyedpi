@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Установка и настройка только GOST (без Byedpi)
-# Финальная версия с не конфликтующими портами
+# Исправленная версия с правильным путем к bin
 
 echo "Подготовка к установке ONLY GOST"
 
@@ -10,6 +10,9 @@ rm -rf gost-setup
 mkdir -p gost-setup
 cd gost-setup
 
+# Создание директории для бинарных файлов
+mkdir -p bin
+
 # Скачивание и сборка GOST
 echo "Скачивание и сборка GOST..."
 git clone https://github.com/go-gost/gost.git
@@ -17,15 +20,12 @@ cd gost/cmd/gost
 go build
 if [ $? -eq 0 ]; then
     echo "GOST успешно собран"
-    cp gost ../../../bin/gost
+    cp gost ../../bin/gost
 else
     echo "Ошибка сборки GOST"
     exit 1
 fi
 cd ../../..
-
-# Создание директории для бинарных файлов
-mkdir -p bin
 
 # Проверка, что бинарный файл GOST создан
 if [ ! -f "bin/gost" ]; then
