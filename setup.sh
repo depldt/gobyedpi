@@ -170,7 +170,7 @@ else
 fi
 cd ~ && echo 'DONE' && cat <<EOF
 
-\033[31m\|/          (__)    
+\|/          (__)    
      \`\------(oo)
        ||    (__)     VAMA-WAMA-VAMA-WAMA CHOOOOMO
        ||w--||     \|/
