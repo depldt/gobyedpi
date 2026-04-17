@@ -169,3 +169,12 @@ else
     exit 1
 fi
 cd ~ && echo 'DONE'
+echo 'EOF'
+
+\|/          (__)    
+     `\------(oo)
+       ||    (__)
+       ||w--||     \|/
+   \|/
+   
+EOF
