@@ -10,6 +10,12 @@ echo "Подготовка к установке GOST + Byedpi DPI обхода"
 #apt install -y git nano docker-compose wget curl net-tools docker.io build-essential make gcc golang
 
 # Создание директории проекта
+docker stop gost-byedpi-container && docker rm gost-byedpi-container && cd ~ # закомментировать
+
+rm -rf gobyedpi/ # закомментировать
+
+# после git clone ...
+
 mkdir -p gost-byedpi-setup
 cd gost-byedpi-setup
 
