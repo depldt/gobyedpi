@@ -168,3 +168,4 @@ else
     echo "Ошибка сборки Docker контейнера"
     exit 1
 fi
+cd ~ && echo 'DONE'
