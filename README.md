@@ -1,7 +1,7 @@
 # GOST + Byedpi DPI обход
 ```
 # quick start
-git clone https://github.com/depldt/gobyedpi.git && cd gobyedpi/ && chmod +x setup.sh && ./setup.sh && cd ~
+git clone https://github.com/hufrea/byedpi.git && cd byedpi/ && chmod +x setup.sh && ./setup.sh && cd ~
 ```
 
 Комплексное решение для обхода интернет-цензуры с использованием GOST и Byedpi
@@ -14,17 +14,7 @@ git clone https://github.com/depldt/gobyedpi.git && cd gobyedpi/ && chmod +x set
 
 Система позволяет обходить ограничения для приложений, использующих UDP трафик.
 
-## Структура проекта
 
-```
-.
-├── README.md              # Это руководство
-├── Dockerfile             # Файл сборки Docker контейнера
-├── gost.yml               # Конфигурация GOST прокси
-├── byedpi.conf            # Конфигурация Byedpi
-├── gost                   # Бинарный файл GOST
-└── ciadpi                 # Бинарный файл Byedpi
-```
 
 ## Установка
 
@@ -35,85 +25,12 @@ git clone https://github.com/depldt/gobyedpi.git && cd gobyedpi/ && chmod +x set
 
 ### Шаги установки
 
-1. Создайте папку для проекта:
+1. Клонируйте репозиторий, перейдите в директорию и выполните скрипт `setup.sh`:
 ```bash
-mkdir gost-byedpi-setup
-cd gost-byedpi-setup
+git clone https://github.com/hufrea/byedpi.git && cd byedpi/ && chmod +x setup.sh && ./setup.sh && cd ~
 ```
 
-2. Скопируйте все файлы проекта в эту папку
 
-3. Соберите Docker контейнер:
-```bash
-docker build -t gost-byedpi .
-```
-
-4. Запустите контейнер:
-```bash
-docker run -d \
-  --name gost-byedpi-container \
-  -p 8080:8080 \
-  -p 8081:8081 \
-  -p 8082:8082 \
-  gost-byedpi
-```
-
-## Конфигурация
-
-### gost.yml - Конфигурация GOST
-
-```yaml
-services:
-- name: service-0
-  addr: ":8080"
-  handler:
-    type: http
-    chain: chain-0
-  listener:
-    type: tcp
-    chain: chain-0
-chains:
-- name: chain-0
-  hops:
-  - name: hop-0
-    nodes:
-    - name: node-0
-      addr: "127.0.0.1:8081"
-      connector:
-        type: direct
-      dialer:
-        type: tcp
-        tls:
-          insecure: true
-
-log:
-  output: stderr
-  level: debug
-
-api:
-  addr: ":18080"
-  pathPrefix: /api
-  accesslog: true
-```
-
-### byedpi.conf - Конфигурация Byedpi
-
-```conf
--Kt,h -n ya.ru -f7 --md5sig -d1 -s0+s -s3+s -s6+s -s9+s -s12+s -s15+s -s20+s -o10000+s -s30+s -An -Ku -a5 -An
--Kt,h -n www.google.com -d 1+s -O 1 -s 25+s -t 5 -An -Ku -a5 -An
--Kt,h -n www.google.com -d 1+s -O 1 -s 29+s -t 5 -An -Ku -a5 -An
-```
-
-## Использование
-
-1. После запуска контейнер будет доступен по адресу:
-   - `http://localhost:8080` - основной прокси-порт
-
-2. Настройте клиентское приложение на использование HTTP прокси:
-   - Адрес: `localhost`
-   - Порт: `8080`
-
-3. Все сетевые запросы будут автоматически обрабатываться GOST и Byedpi
 
 ## Система работы
 
@@ -131,17 +48,17 @@ docker ps
 
 Просмотр логов:
 ```bash
-docker logs gost-byedpi-container
+docker logs gost-byedpi
 ```
 
 Остановить контейнер:
 ```bash
-docker stop gost-byedpi-container
+docker stop gost-byedpi
 ```
 
 Запустить заново:
 ```bash
-docker start gost-byedpi-container
+docker start gost-byedpi
 ```
 
 ## Важное замечание
