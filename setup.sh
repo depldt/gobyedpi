@@ -168,13 +168,12 @@ else
     echo "Ошибка сборки Docker контейнера"
     exit 1
 fi
-cd ~ && echo 'DONE'
-echo 'EOF'
+cd ~ && echo 'DONE' && cat <<EOF
 
 \|/          (__)    
      `\------(oo)
        ||    (__)
        ||w--||     \|/
    \|/
-   
+
 EOF
