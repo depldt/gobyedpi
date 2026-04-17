@@ -10,9 +10,6 @@ rm -rf gost-setup
 mkdir -p gost-setup
 cd gost-setup
 
-# Создание директории для бинарных файлов ПЕРЕД сборкой
-mkdir -p bin
-
 # Скачивание и сборка GOST
 echo "Скачивание и сборка GOST..."
 git clone https://github.com/go-gost/gost.git
@@ -20,7 +17,9 @@ cd gost/cmd/gost
 go build
 if [ $? -eq 0 ]; then
     echo "GOST успешно собран"
-    cp gost ../../bin/gost
+    # Создаем директорию bin и копируем туда бинарник
+    mkdir -p ../../../bin
+    cp gost ../../../bin/gost
 else
     echo "Ошибка сборки GOST"
     exit 1
