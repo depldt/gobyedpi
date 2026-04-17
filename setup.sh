@@ -87,17 +87,17 @@ EOF
 echo "Создание конфигурационного файла GOST..."
 
 cat > gost.yml << 'EOF'
+# cat /etc/gost/gost.yml 
 services:
 - name: service-0
   addr: ":8080"
   handler:
     type: socks5
     metadata:
-      udp: true  # Разрешаем клиентам подключаться по UDP
+      udp: false  # Разрешаем клиентам подключаться по UDP
     chain: chain-0 # Весь трафик (TCP и UDP) пойдет в эту цепочку
   listener:
     type: tcp    # Слушаем входящие соединения по TCP
-
 chains:
 - name: chain-0
   hops:
@@ -106,7 +106,7 @@ chains:
     - name: node-0
       addr: "127.0.0.1:8081"
       connector:
-        type: http  # Принимающий узел на 8081 должен быть HTTP-прокси
+        type: socks5  # Принимающий узел на 8081 должен быть HTTP-прокси
       dialer:
         type: tcp
         # Если на порту 8081 нет TLS, секцию tls можно убрать.
