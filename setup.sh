@@ -172,7 +172,7 @@ cd ~ && echo 'DONE' && cat <<EOF
 
 \|/          (__)    
      \`\------(oo)
-       ||    (__)
+       ||    (__)     VAMA-WAMA-VAMA-WAMA CHOOOOMO
        ||w--||     \|/
    \|/
 
